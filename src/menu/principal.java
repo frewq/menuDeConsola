@@ -1,6 +1,3 @@
-//TODO: ¿usar un MAP para el ID de la pila?
-//TODO:static para la ID del menu, incremental para el id del item, NOMBRE DEL MENU para cada menu que cree
-
 package menu;
 
 import java.util.ArrayList;
@@ -12,57 +9,63 @@ public class principal {
 	Scanner scanner = new Scanner(System.in);
 	String entrada = new String();
 	boolean continuar = true;
+	Menu menuSiguente;
 
 	ArrayList<Menu> pila = new ArrayList<Menu>();
 
-        String opcionesMenuPrincipal[] = {"CUENTA","OPCIONES","SALIR"};
-	Menu menuPrincipal = new Menu("0", "MENU PRINCIPAL" , opcionesMenuPrincipal);
+	String opcionesMenuPrincipal[] = {"CUENTA", "OPCIONES", "SALIR"};
+	Menu menuPrincipal = new Menu("MENU PRINCIPAL", opcionesMenuPrincipal);
 	pila.add(menuPrincipal);
-	
-        String opcionesMenuCuenta[] = {"CARGAR SALDO", "RETIRAR SALDO","CONSULTAR SALDO","SALIR"};
-//	Menu menuCuenta = new Menu("1", "CARGAR SALDO", opcionesMenuCuenta);
-//	pila.add(menuCuenta);
 
-//	System.out.println(menuPrincipal.getItem(1));
-	
-//	System.out.println(pila.get(pila.size()-1).getLargo()); //Conbino dos tipos: obtengo el largo(tipo menu) del ultimo de la fila (tipo ArrayList)
-	
-	
+	String opcionesMenuCuenta[] = {"CARGAR SALDO", "RETIRAR SALDO", "CONSULTAR SALDO", "ATRAS", "SALIR"};
+	Menu menuCuenta = new Menu("CARGAR SALDO", opcionesMenuCuenta);
+
+	String opcionesMenuOpciones[] = {"PEDIR AYUDA", "CAMBIAR CONTRASEÑA", "ATRAS", "SALIR"};
+	Menu menuOpciones = new Menu("OPCIONES", opcionesMenuOpciones);
+
+	String opcionesAtras[] = {"ATRAS"};
+	Menu menuAtras = new Menu("ATRAS", opcionesAtras);
+
+	String opcionesSalir[] = {"SALIR"};
+	Menu menuSalir = new Menu("SALIR", opcionesSalir);
+
+	menuSiguente = menuPrincipal;
+
 	do {
-	    pila.get(pila.size()-1).mostrarMenu();
+	    System.out.println("************************************");
+	    pila.get(pila.size() - 1).mostrarMenu();
+	    System.out.println("************************************");
 	    System.out.println("Seleccione una opción.");
-	    entrada = pila.get(pila.size()-1).getId() + "." + scanner.nextLine();
-	    
-	    for (int i = 0; i < pila.get(pila.size()-1).getLargo(); i++) { //no hace el loop sobre la pila sino sobre el largo del ultimo item en esa pila
-		if (entrada.equals(pila.get(pila.size()-1).getId() + "." + i)) {      //¿esta en la pila? <------------------------------------------ corregir esto
-		    System.out.println(pila.get(pila.size()-1).getNombreMenu());
-		    System.out.println(pila.get(pila.size()-1).getItem(i) + "-----ELEGIDO------");
-		    
-		    //funcion del tipo menu que retorna un string, va donde opcionesMenuCuenta, realiza un bucle buscando el nombre en la pila y retorna el ID
-		    Menu nuevoMenu = new Menu( "2",pila.get(pila.size()-1).getItem(i), opcionesMenuCuenta);
-		    
-		    System.out.println("el guion de arriba es prueba");
-		    System.out.println(nuevoMenu);
-		    pila.add(nuevoMenu);
-		    System.out.println(pila.size() + " largoo");
-		}
-		if (entrada.equals(pila.get(pila.size()-1).getId() + "." + "salir")) {      //¿esta en la pila?
-		    continuar = false;
+	    entrada = scanner.nextLine().toUpperCase();
+	    for (int i = 0; i < pila.get(pila.size() - 1).getCantidadOpciones(); i++) { //no hace el loop sobre la pila sino sobre el largo del ultimo item en esa pila
+		if (entrada.equals(pila.get(pila.size() - 1).getItem(i))) {      //¿esta entre las opciones en la pila? <------------------------------------------ corregir esto
+		    System.out.println("-----ELEGIDO------>: " + pila.get(pila.size() - 1).getItem(i));
+
+		    if (pila.get(pila.size() - 1).getItem(i) == "CUENTA") {
+			menuSiguente = menuCuenta;
+		    }
+
+		    if (pila.get(pila.size() - 1).getItem(i) == "OPCIONES") {
+			menuSiguente = menuOpciones;
+		    }
+
+		    if (pila.get(pila.size() - 1).getItem(i) == "ATRAS") {
+			menuSiguente = menuAtras;
+		    }
+
+		    if (pila.get(pila.size() - 1).getItem(i) == "SALIR") {
+			menuSiguente = menuSalir;
+			continuar = false;
+		    }
+
+//		    System.out.println(pila.size() + " tamaño de la pila");
 		}
 	    }
-	    
-//	    for (int i = 0; i < 10; i++) {
-//		System.out.println(pila.get(pila.size()-1).getItem(1));
-//	    }
-
+	    pila.add(menuSiguente);
+	    if (pila.get(pila.size() - 1).getNombreMenu() == "ATRAS") {
+		pila.remove(pila.size() - 1);
+		pila.remove(pila.size() - 1);
+	    }
 	} while (continuar);
-
-//
-//	pila.add(menuCuenta.mostrarMenu());
-//        System.out.println(menuPrincipal.getMenu());
-
-//        for (String string : opcionesMenuPrincipal) {
-//            System.out.println( string );
-//        }
     }
 }

@@ -1,22 +1,19 @@
-//TODO: usar ID para cada menu
-//ID debe ser Static
 package menu;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Menu {
 
     private String nombreMenu;
-    private String id;
-    private String[] menu;
-    private ArrayList<String> id_opcion = new ArrayList<String>();
+    private String[] opciones;
 
-    public Menu(String id, String nombreMenu, String[] menu) {
-	this.nombreMenu = nombreMenu;
-	this.id = id;
-	this.menu = menu;
-	for (int i = 0; i < menu.length; i++) {
-	    this.id_opcion.add(this.id + "." + i);
+    public Menu(String nombreMenu, String[] opciones) {
+	this.nombreMenu = nombreMenu.toUpperCase();
+	this.opciones = opciones;
+
+	for (String opcion : this.opciones) {
+	    opcion.toUpperCase();
 	}
     }
 
@@ -24,26 +21,20 @@ public class Menu {
 	return nombreMenu;
     }
 
-    public int getLargo() {
-	return menu.length;
-    }
-
-    public String getId() {
-	return id;
-    }
-
-    public ArrayList<String> getId_opcion() {
-	return id_opcion;
+    public int getCantidadOpciones() {
+	return opciones.length;
     }
 
     public String getItem(int item) {
-	return menu[item];
+	return opciones[item];
+    }
+
+    public String getOpciones() {
+	return Arrays.toString(opciones);
     }
 
     public void mostrarMenu() {
-//        opciones = "";
-	for (String string : menu) {
-//            opciones = opciones+ " " + string;
+	for (String string : opciones) {
 	    System.out.println(string);
 	}
     }
